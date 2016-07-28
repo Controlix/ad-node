@@ -1,0 +1,43 @@
+<article class="ankeiler ankeiler--standard fjs-ankeiler--sixpack">
+	<a href="http://www.ad.nl/{{section}}/artikel~a{{shortId}}/" class="ankeiler__link">
+    <picture class="ankeiler__image-wrapper ankeiler__image-wrapper--half">
+      <source media="(min-width: 906px)" srcset="http://lorempixel.com/600/900/sports/ 1x" />
+			<source media="(min-width: 768px)" srcset="http://lorempixel.com/600/900/sports/ 1x" />
+			<source media="(min-width: 600px)" srcset="http://lorempixel.com/600/900/sports/ 1x" />
+			<source media="(min-width: 430px)" srcset="http://lorempixel.com/600/900/sports/ 1x" />
+      <img class="ankeiler__image" src="http://lorempixel.com/600/900/sports/" alt="{{title}}" />
+
+    </picture>
+		<div class="ankeiler__wrapper {{^introText}}ankeiler__wrapper--no-intro{{/introText}}">
+			<div class="fjs-ankeiler__wrapper">
+				<header class="ankeiler__header">
+          {{#if label}}
+					<span class="label label--full">
+						{{label}}
+					</span>
+          {{/if}}
+          {{#if hyphenatedTitle}}
+					<h2 class="ankeiler__title">
+            {{hyphenatedTitle}}
+					</h2>
+          {{/if}}
+				</header>
+				<div class="ankeiler__body">
+					<time class="ankeiler__body-time">
+						9:30
+					</time>
+          {{#if introText}}
+					<span class="ankeiler__body-text fjs-ankeilr__intro">
+            {{introText}}
+					</span>
+          {{/if}}
+          {{#if mainAuthor}}
+					<div class="ankeiler__body-author">
+            {{mainAuthor}}
+					</div>
+          {{/if}}
+				</div>
+			</div>
+		</div>
+	</a>
+</article>
