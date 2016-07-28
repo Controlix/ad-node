@@ -1,6 +1,9 @@
 var express = require('express');
 var bl = require('bl');
 var chunk = require('chunk');
+var dateformat = require('dateformat');
+var i18n = require('i18n');
+var path = require('path');
 var request = require('request').defaults({baseUrl: 'http://localhost:5678/teasers/'});
 
 var router = express.Router();
@@ -19,6 +22,12 @@ var example = {
   ]
 };
 
+i18n.configure({
+  directory: path.join(__dirname, '../locales'),
+  defaultLocale: 'nl'
+});
+i18n.setLocale('nl');
+
 router.get('/', function(req, res, next) {
   request
     .get('AD_HOME-AD_SITE_PRIOS')
@@ -27,7 +36,12 @@ router.get('/', function(req, res, next) {
         if (err) {
           res.send('Error');
         }
-        prios = JSON.parse(data);
+        var prios = JSON.parse(data);
+        var midnight = new Date();
+        midnight.setHours(0);
+        midnight.setMinutes(0);
+        midnight.setSeconds(0);
+        midnight.setMilliseconds(0);
 
         var sixpacks = [];
         var parts = chunk(prios, 6);
@@ -38,6 +52,12 @@ router.get('/', function(req, res, next) {
           for (var j = 0; j < parts[i].length; j++) {
             teaser = parts[i][j];
             teaser.bpClasses = "tile--" + j + " tile-small-1x1 tile-medium-1x1 tile-large-1x1 tile-xlarge-1x1 tile-xxlarge-1x1";
+            teaserDate = new Date(teaser.lastUpdate);
+            if (teaserDate < midnight) {
+              teaser.date = dateformat(teaserDate, "d ") + i18n.__(dateformat(teaserDate, "mmmm"));
+            } else {
+              teaser.date = dateformat(teaserDate, "H:MM");
+            }
             teasers.push(teaser);
           }
           sixpacks.push({name: 'sixpack--' + i, teasers: teasers});
